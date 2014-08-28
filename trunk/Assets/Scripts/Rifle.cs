@@ -5,7 +5,8 @@ public class Rifle: Weapon {
 	
 	public override void Fire()
 	{
-		
+		FXManager.instance.SpawnFX("GunFire", this.transform.position, this.transform.rotation);
+
 		Transform cameraTransform = Camera.main.transform;	// Transform of the main Camera
 		Ray testRay = new Ray(cameraTransform.position, cameraTransform.forward);	// Ray cast from the pos of the main camera
 		RaycastHit hitInfo = new RaycastHit();	// Info on the impact point of the Ray
@@ -21,7 +22,6 @@ public class Rifle: Weapon {
 				Vector3 pos = hitInfo.point;
 				Quaternion rot = Quaternion.identity;
 				FXManager.instance.SpawnFX(health.GetHitFX(), pos, rot);
-				
 				DealDamage(health);
 			}
 		}

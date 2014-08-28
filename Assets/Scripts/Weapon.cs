@@ -8,6 +8,8 @@ public abstract class Weapon : MonoBehaviour {
 
 	public abstract void Fire();
 
+	public GameObject child;
+
 	protected void DealDamage(Health health)
 	{
 		// Deal damage
@@ -20,4 +22,6 @@ public abstract class Weapon : MonoBehaviour {
 		}
 
 	}
+
+
 }

@@ -9,16 +9,33 @@ public class WeaponController : MonoBehaviour
 
 	private Weapon currentWeapon;
 
+	private float scrollSensitivity;
+	private float scrollValue;
+
+	private GameObject newWeapon;
+
+	private int weaponIndex;
+
 	// Use this for initialization
 	void Start()
 	{
 		Screen.lockCursor = true;
 		SwitchWeapon(defaultWeapon);
+
+		scrollSensitivity = 0.5f;
+
+		scrollValue = 0;
+
+		weaponIndex = 0;
+
+		GunShot boom = GetComponent<GunShot>();
 	}
 	
 	// Update is called once per frame
 	void Update()
 	{
+		scrollValue = Input.GetAxis("Mouse ScrollWheel") * scrollSensitivity;
+
 		// Check for a weapon
 		if(currentWeapon != null)
 		{
@@ -27,6 +44,28 @@ public class WeaponController : MonoBehaviour
 			{
 				// Fire the weapon
 				currentWeapon.Fire();
+
+
+
+			}
+
+			// Switch weapons as the mouse wheel scrolls
+			if(scrollValue > 0.0f || scrollValue < 0.0f)
+			{
+				// Check the current position in the weaponList array and reset to 0 if index reaches upper bounds
+				if(weaponIndex >= WeaponManager.instance.weaponList.GetUpperBound(0))
+				{
+					weaponIndex = 0;
+				}
+				else
+				{
+					weaponIndex++;
+				}
+
+				// Switch to next weapon in the array
+				newWeapon = WeaponManager.instance.weaponList[weaponIndex];
+
+				SwitchWeapon(newWeapon.name);
 			}
 		}
 	}
